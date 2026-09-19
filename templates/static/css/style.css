@@ -1,0 +1,148 @@
+/* ============================================================================
+   Pi Recipe Engine - Custom CSS Overrides
+   ============================================================================ */
+
+/* 1. Global & Utility Classes */
+:root {
+  --spacing-kitchen: 1.25rem;
+  --color-cupboard: #6c757d;
+  --color-fresh: #2e7d32;
+  --border-radius-card: 8px;
+}
+
+/* 2. Recipe Meta Bar Grid */
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  background-color: var(--pico-card-background-color);
+  padding: 1rem;
+  border-radius: var(--border-radius-card);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--pico-border-color);
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pico-muted-color);
+}
+
+.meta-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* 3. Ingredients & Cooking Mode Interactive List */
+.ingredient-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.ingredient-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--pico-border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ingredient-list li:last-child {
+  border-bottom: none;
+}
+
+.ingredient-list input[type="checkbox"] {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+/* Striking through checked ingredients while cooking */
+.ingredient-list input[type="checkbox"]:checked + span {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* Visual indicators for Store Cupboard vs Fresh items */
+.badge-cupboard {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background-color: var(--pico-secondary-background);
+  color: var(--pico-secondary);
+  border: 1px solid var(--pico-border-color);
+}
+
+/* 4. Narrative Sections (Preamble & Postamble) */
+.recipe-preamble {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--pico-color);
+  background-color: var(--pico-card-background-color);
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--pico-primary);
+  margin-bottom: 1.5rem;
+  border-radius: 0 var(--border-radius-card) var(--border-radius-card) 0;
+}
+
+.recipe-postamble {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--pico-card-background-color);
+  border-radius: var(--border-radius-card);
+  border: 1px dashed var(--pico-border-color);
+}
+
+/* 5. Method Formatting */
+.method-body {
+  line-height: 1.7;
+  font-size: 1.05rem;
+  white-space: pre-line; /* Preserves line breaks in recipe instructions */
+}
+
+/* 6. Media / Recipe Hero Image */
+.recipe-hero-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--border-radius-card);
+  margin-bottom: 1.5rem;
+}
+
+/* 7. Companion Side Dishes Section */
+.companion-card {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--border-radius-card);
+  border: 1px solid var(--pico-border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 8. Print Styles (Clean printing for kitchen use) */
+@media print {
+  nav, button, .no-print, details {
+    display: none !important;
+  }
+  
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .meta-grid {
+    border: 1px solid #ccc;
+    background: none;
+  }
+
+  .recipe-hero-image {
+    max-height: 250px;
+  }
+}
