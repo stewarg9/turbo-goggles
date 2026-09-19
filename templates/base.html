@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Recipe Engine</title>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        .cupboard { opacity: 0.75; font-style: italic; }
+        .grid-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        @media (max-width: 800px) { .grid-7 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="container">
+        <ul>
+            <li><strong>🍲 RecipeEngine</strong></li>
+        </ul>
+        <ul>
+            <li><a href="/">Recipes</a></li>
+            <li><a href="/planner">Meal Planner</a></li>
+            <li><a href="/shopping">Shopping List</a></li>
+            <li><a href="/import" class="contrast">Import AI Payload</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
