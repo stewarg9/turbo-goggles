@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Weekly Planner</h2>
+<div class="grid-7">
+    {% for date_obj in week_dates %}
+    {% set d_str = date_obj.strftime("%Y-%m-%d") %}
+    <article style="padding: 10px;">
+        <header><strong>{{ date_obj.strftime("%a %d %b") }}</strong></header>
+        <ul>
+            {% for item in schedule[d_str] %}
+                <li>{{ item.title or item.custom_item }}</li>
+            {% else %}
+                <li><small><em>No meals planned</em></small></li>
+            {% endfor %}
+        </ul>
+        <footer>
+            <details class="dropdown">
+                <summary>+ Add</summary>
+                <form action="/planner/add" method="post">
+                    <input type="hidden" name="plan_date" value="{{ d_str }}">
+                    <select name="recipe_id" required>
+                        <option value="">Select Recipe...</option>
+                        {% for r in all_recipes %}
+                        <option value="{{ r.id }}">{{ r.title }}</option>
+                        {% endfor %}
+                    </select>
+                    <fieldset>
+                        <legend><small>Quick-Add Sides:</small></legend>
+                        <label><input type="checkbox" name="companions" value="Couscous (Tom's swap)"> Couscous (Tom)</label>
+                        <label><input type="checkbox" name="companions" value="Garlic Bread"> Garlic Bread</label>
+                    </fieldset>
+                    <button type="submit" class="micro">Add</button>
+                </form>
+            </details>
+        </footer>
+    </article>
+    {% endfor %}
+</div>
+{% endblock %}
