@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>AI JSON Recipe Importer</h2>
+<p>Paste the raw JSON generated from the migration LLM prompt below:</p>
+
+<form hx-post="/api/recipes/import" hx-ext="json-enc" hx-target="#import-result">
+    <textarea id="json_input" name="json_payload" rows="12" placeholder="Paste JSON here..."></textarea>
+    <button type="button" onclick="submitJson()">Import Recipe</button>
+</form>
+
+<div id="import-result"></div>
+
+<script>
+async function submitJson() {
+    const rawJson = document.getElementById('json_input').value;
+    const resDiv = document.getElementById('import-result');
+    try {
+        const parsed = JSON.parse(rawJson);
+        const response = await fetch('/api/recipes/import', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(parsed)
+        });
+        const res = await response.json();
+        resDiv.innerHTML = `<ins>${res.message}</ins>`;
+    } catch(err) {
+        resDiv.innerHTML = `<mark>Invalid JSON: ${err.message}</mark>`;
+    }
+}
+</script>
+{% endblock %}
