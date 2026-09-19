@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article>
+    <!-- Header & Actions -->
+    <header style="margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1 style="margin-bottom: 0.25rem;">{{ recipe.title }}</h1>
+                {% if recipe.source_name %}
+                    <small class="no-print">
+                        <strong>Source:</strong> 
+                        {% if recipe.source_url %}
+                            <a href="{{ recipe.source_url }}" target="_blank" rel="noopener">{{ recipe.source_name }}</a>
+                        {% else %}
+                            {{ recipe.source_name }}
+                        {% endif %}
+                        {% if recipe.source_detail %}({{ recipe.source_detail }}){% endif %}
+                    </small>
+                {% endif %}
+            </div>
+            <div class="no-print" style="display: flex; gap: 0.5rem;">
+                <button class="outline secondary micro" onclick="window.print()">🖨️ Print</button>
+                <a href="/planner" class="outline micro" role="button">📅 Plan Meal</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Optional Hero Image -->
+    {% if recipe.image_path %}
+        <img src="/static/{{ recipe.image_path }}" alt="{{ recipe.title }}" class="recipe-hero-image">
+    {% endif %}
+
+    <!-- Operational Meta Grid -->
+    <div class="meta-grid">
+        <div class="meta-item">
+            <span class="meta-label">Prep Time</span>
+            <span class="meta-value">
+                {% if recipe.prep_time_minutes %}{{ recipe.prep_time_minutes }} mins{% else %}—{% endif %}
+            </span>
+        </div>
+        <div class="meta-item">
+            <span class="meta-label">Cook Time</span>
+            <span class="meta-value">
+                {% if recipe.cook_time_minutes %}{{ recipe.cook_time_minutes }} mins{% else %}—{% endif %}
+            </span>
+        </div>
+        <div class="meta-item">
+            <span class="meta-label">Servings</span>
+            <span class="meta-value">{{ recipe.servings or 4 }}</span>
+        </div>
+        <div class="meta-item">
+            <span class="meta-label">Source Type</span>
+            <span class="meta-value" style="text-transform: capitalize;">{{ recipe.source_type or 'General' }}</span>
+        </div>
+    </div>
+
+    <!-- Preamble / Introduction Narrative -->
+    {% if recipe.preamble %}
+        <div class="recipe-preamble">
+            {{ recipe.preamble }}
+        </div>
+    {% endif %}
+
+    <!-- Core Recipe Content (Two Column Layout for Desktop) -->
+    <div class="grid">
+        <!-- Column 1: Ingredients -->
+        <aside>
+            <h3>Ingredients</h3>
+            <ul class="ingredient-list">
+                {% for item in ingredients %}
+                    <li>
+                        <input type="checkbox" id="ing-{{ item.id }}" class="no-print">
+                        <label for="ing-{{ item.id }}" style="margin-bottom: 0; cursor: pointer;">
+                            <span>
+                                {% if item.quantity %}{{ item.quantity|string|replace('.0', '') }}{% endif %}
+                                {% if item.unit %}{{ item.unit }}{% endif %}
+                                <strong>{{ item.ingredient_name }}</strong>
+                                {% if item.prep_note %}<em>({{ item.prep_note }})</em>{% endif %}
+                            </span>
+                            {% if item.is_store_cupboard %}
+                                <span class="badge-cupboard no-print">Cupboard</span>
+                            {% endif %}
+                        </label>
+                    </li>
+                {% else %}
+                    <li><em>No structured ingredients listed.</em></li>
+                {% endfor %}
+            </ul>
+
+            <!-- Suggested Companion Sides / Extra Options -->
+            {% if companions %}
+                <section style="margin-top: 2rem;">
+                    <h4>Suggested Sides & Swaps</h4>
+                    {% for comp in companions %}
+                        <div class="companion-card">
+                            <div>
+                                {% if comp.companion_recipe_id %}
+                                    <a href="/recipe/{{ comp.companion_recipe_id }}"><strong>{{ comp.companion_title }}</strong></a>
+                                {% else %}
+                                    <strong>{{ comp.custom_item_name }}</strong>
+                                {% endif %}
+                                {% if comp.notes %}
+                                    <br><small><em>{{ comp.notes }}</em></small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        </aside>
+
+        <!-- Column 2: Method / Cooking Instructions -->
+        <div>
+            <h3>Method</h3>
+            <div class="method-body">
+                {{ recipe.method }}
+            </div>
+
+            <!-- Postamble / Chef Notes Narrative -->
+            {% if recipe.postamble %}
+                <div class="recipe-postamble">
+                    <strong>Chef Notes & Storage:</strong>
+                    <p style="margin-bottom: 0;">{{ recipe.postamble }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
+<!-- Navigation Footer -->
+<div class="no-print" style="margin-top: 2rem;">
+    <a href="/" class="secondary">← Back to All Recipes</a>
+</div>
+{% endblock %}
