@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Shopping List ({{ start_date }} to {{ end_date }})</h2>
+
+<div class="grid">
+    <article>
+        <header><strong>🥦 Fresh & Produce (Must Buy)</strong></header>
+        <ul>
+            {% for item in fresh_items %}
+            <li>
+                <label>
+                    <input type="checkbox"> 
+                    <strong>{{ item.ingredient }}</strong>: 
+                    {{ item.total_qty or '' }} {{ item.unit or '' }}
+                </label>
+            </li>
+            {% else %}
+            <li>No fresh items required.</li>
+            {% endfor %}
+        </ul>
+    </article>
+
+    <article class="cupboard">
+        <header><strong>🧂 Store Cupboard (Check Pantry First)</strong></header>
+        <ul>
+            {% for item in cupboard_items %}
+            <li>
+                <label>
+                    <input type="checkbox"> 
+                    {{ item.ingredient }}: 
+                    {{ item.total_qty or '' }} {{ item.unit or '' }}
+                </label>
+            </li>
+            {% else %}
+            <li>No cupboard items required.</li>
+            {% endfor %}
+        </ul>
+    </article>
+</div>
+{% endblock %}
