@@ -1,0 +1,43 @@
+Extract the recipe below into a structured JSON object matching this exact schema:
+
+{
+  "title": "String",
+  "preamble": "String or null",
+  "method": "String with step-by-step instructions",
+  "postamble": "String or null",
+  "source_type": "cookbook|url|magazine|family|other",
+  "source_name": "String or null",
+  "source_detail": "String or null",
+  "source_url": "String or null",
+  "prep_time_minutes": Integer or null,
+  "cook_time_minutes": Integer or null,
+  "servings": Integer,
+  "tags": ["Tag1", "Tag2"],
+  "ingredients": [
+    {
+      "raw_text": "2 medium yellow onions, diced",
+      "normalized_name": "Yellow Onion",
+      "quantity": 2.0,
+      "unit": "item",
+      "prep_note": "diced",
+      "category": "Produce",
+      "is_store_cupboard": false
+    },
+    {
+      "raw_text": "2 tbsp olive oil",
+      "normalized_name": "Olive Oil",
+      "quantity": 2.0,
+      "unit": "tbsp",
+      "prep_note": null,
+      "category": "Pantry",
+      "is_store_cupboard": true
+    }
+  ]
+}
+
+Rules:
+1. `is_store_cupboard` must be true for spices, oils, flour, salt, pantry staples, and canned pantry goods. It must be false for fresh produce, meat, dairy, or chilled goods.
+2. `normalized_name` must use clean Title Case without quantities (e.g., "Garlic", not "garlic cloves").
+
+Recipe Source/Text:
+[INSERT RECIPE TEXT OR ATTACH IMAGE HERE]
